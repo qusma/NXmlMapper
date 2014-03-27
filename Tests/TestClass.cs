@@ -20,5 +20,7 @@ namespace Tests
 
         [ElementName("Bar")]
         public int PropWithSpecifiedEelementName { get; set; }
+
+        public int FooBar { get; set; }
     }
 }
