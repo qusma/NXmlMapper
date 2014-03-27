@@ -94,17 +94,21 @@ namespace Tests
         public void ParseAllReturnsAllElementsCorrectly()
         {
             string input = "<Collection>" +
-                        "<TestClass IntProp=\"1\" /> " +
-                        "<TestClass IntProp=\"2\" /> " +
-                        "<TestClass IntProp=\"3\" /> " +
-                        "<TestClass IntProp=\"4\" /> " +
-                        "<TestClass IntProp=\"5\" /> " +
-                        "<TestClass IntProp=\"6\" /> " +
-                    "</Collection>";
+                                "<TestClass IntProp=\"0\" /> " +
+                                "<TestClass IntProp=\"1\" /> " +
+                                "<TestClass IntProp=\"2\" /> " +
+                                "<TestClass IntProp=\"3\" /> " +
+                                "<TestClass IntProp=\"4\" /> " +
+                                "<TestClass IntProp=\"5\" /> " +
+                            "</Collection>";
 
             var mapper = new Mapper<TestClass>(input);
             List<TestClass> result = mapper.ParseAll();
             Assert.AreEqual(6, result.Count);
+            for (int i = 0; i < 6; i++)
+            {
+                Assert.AreEqual(i, result[i].IntProp);
+            }
         }
 
     }
