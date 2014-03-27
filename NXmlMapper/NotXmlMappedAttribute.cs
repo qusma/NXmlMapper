@@ -8,6 +8,9 @@ using System;
 
 namespace NXmlMapper
 {
+    /// <summary>
+    /// Prevent this attribute from being automatically mapped.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class NotXmlMappedAttribute : Attribute
     {

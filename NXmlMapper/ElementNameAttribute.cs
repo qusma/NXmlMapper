@@ -8,6 +8,9 @@ using System;
 
 namespace NXmlMapper
 {
+    /// <summary>
+    /// Map a sub-element's value to a property.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class ElementNameAttribute : Attribute
     {
