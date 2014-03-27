@@ -43,7 +43,6 @@
     <Compile Include="ElementNameAttribute.cs" />
     <Compile Include="NotXmlMappedAttribute.cs" />
     <Compile Include="Mapper.cs" />
-    <Compile Include="NXmlMapperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
