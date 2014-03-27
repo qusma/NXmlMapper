@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -251,7 +252,8 @@ namespace NXmlMapper
         /// <param name="input">String to be parsed.</param>
         /// <param name="target">Target object.</param>
         /// <param name="propertyName">The name of the property.</param>
-        private void ParseString(string input, ref T target, string propertyName)
+        /// <param name="parseOptions">Optional: options to be passed to the parser. Example: for exact datetime parsing.</param>
+        private void ParseString(string input, ref T target, string propertyName, string parseOptions = null)
         {
             PropertyInfo propertyInfo = typeof(T).GetProperty(propertyName);
             Type propertyType = propertyInfo.PropertyType;
@@ -283,6 +285,25 @@ namespace NXmlMapper
             else if (propertyType == typeof(string))
             {
                 propertyInfo.SetValue(target, input);
+            }
+            else if (propertyType == typeof(DateTime))
+            {
+                DateTime dt;
+                bool success = false;
+                
+                if(!string.IsNullOrEmpty(parseOptions))
+                {
+                    success = DateTime.TryParse(input, out dt);
+                }
+                else
+                {
+                    success = DateTime.TryParseExact(input, parseOptions, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
+                }
+
+                if (success)
+                {
+                    propertyInfo.SetValue(target, dt);
+                }
             }
         }
     }
