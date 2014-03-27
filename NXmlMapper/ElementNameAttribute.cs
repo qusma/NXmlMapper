@@ -11,7 +11,7 @@ namespace NXmlMapper
     /// <summary>
     /// Map a sub-element's value to a property.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class)]
     public class ElementNameAttribute : Attribute
     {
         public string ElementName;

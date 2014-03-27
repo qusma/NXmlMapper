@@ -28,7 +28,16 @@ namespace NXmlMapper
             _elementPropertyMap = new Dictionary<string, string>();
             _attributePropertyMap = new Dictionary<string, string>();
 
-            _elementName = elementName ?? typeof(T).Name;
+            if (elementName != null)
+            {
+                _elementName = elementName;
+            }
+            else
+            {
+                //Check if the class has an attribute specifying the element name. If not use, the class name.
+                var elementNameAttr = (ElementNameAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(ElementNameAttribute));
+                _elementName = elementNameAttr != null ? elementNameAttr.ElementName : typeof(T).Name;
+            }
 
             GetMapsFromAttributes();
             GetMapsFromProperties();
