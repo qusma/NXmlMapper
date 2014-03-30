@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributetNameAttribute.cs" />
+    <Compile Include="AttributeNameAttribute.cs" />
     <Compile Include="ElementNameAttribute.cs" />
     <Compile Include="NotXmlMappedAttribute.cs" />
     <Compile Include="Mapper.cs" />

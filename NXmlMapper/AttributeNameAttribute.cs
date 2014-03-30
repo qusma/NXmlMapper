@@ -15,10 +15,12 @@ namespace NXmlMapper
     public class AttributeNameAttribute : Attribute
     {
         public string AttributeName;
+        public string ParseOptions;
 
-        public AttributeNameAttribute(string name)
+        public AttributeNameAttribute(string name, string parseOptions = null)
         {
             AttributeName = name;
+            ParseOptions = parseOptions;
         }
     }
 }
