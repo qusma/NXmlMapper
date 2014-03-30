@@ -305,6 +305,13 @@ namespace NXmlMapper
                     propertyInfo.SetValue(target, dt);
                 }
             }
+            else if (propertyType == typeof(bool))
+            {
+                if (input == "1" || input.ToLower() == "true")
+                    propertyInfo.SetValue(target, true);
+                else
+                    propertyInfo.SetValue(target, false);
+            }
         }
     }
 }
