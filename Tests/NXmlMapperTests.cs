@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using NXmlMapper;
 
@@ -19,6 +20,7 @@ namespace Tests
                          "StringProp=\"BobTheBuilder\" " +
                          "NotMapped=\"11\" " +
                          "Foo=\"99\" " +
+                         "date=\"2001;11;16\" " +
                          "BarFoo=\"1\">" +
 
                         "<Bar>55</Bar>" + 
@@ -111,5 +113,39 @@ namespace Tests
             }
         }
 
+        [Test]
+        public void DateTimeParsingWorksCorrectly()
+        {
+            var mapper = new Mapper<TestClass>(_input, "SampleXml");
+            TestClass t = mapper.ParseOne();
+            Assert.AreEqual(new DateTime(2001, 11, 16), t.Date);
+        }
+
+        [Test]
+        public void BoolPropertyOneIsParsedAsTrue()
+        {
+            string input = "<TestClass BoolProp=\"1\" /> ";
+            var mapper = new Mapper<TestClass>(input);
+            TestClass result = mapper.ParseOne();
+            Assert.IsTrue(result.BoolProp);
+        }
+
+        [Test]
+        public void BoolPropertyTrueStringIsParsedAsTrue()
+        {
+            string input = "<TestClass BoolProp=\"true\" /> ";
+            var mapper = new Mapper<TestClass>(input);
+            TestClass result = mapper.ParseOne();
+            Assert.IsTrue(result.BoolProp);
+        }
+
+        [Test]
+        public void BoolPropertyZeroIsParsedAsFalse()
+        {
+            string input = "<TestClass BoolProp=\"0\" /> ";
+            var mapper = new Mapper<TestClass>(input);
+            TestClass result = mapper.ParseOne();
+            Assert.IsFalse(result.BoolProp);
+        }
     }
 }
