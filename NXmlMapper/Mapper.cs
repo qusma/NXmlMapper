@@ -15,10 +15,11 @@ namespace NXmlMapper
     {
         private Dictionary<string, string> _elementPropertyMap;
         private Dictionary<string, string> _attributePropertyMap;
+        private Dictionary<string, string> _attributeParseOptions;
 
         private string _elementName;
 
-        private XDocument _xml;
+        private IEnumerable<XElement> _xml;
 
         /// <summary>
         /// Create mapper to parse xml files to objects.
@@ -28,6 +29,7 @@ namespace NXmlMapper
         {
             _elementPropertyMap = new Dictionary<string, string>();
             _attributePropertyMap = new Dictionary<string, string>();
+            _attributeParseOptions = new Dictionary<string, string>();
 
             if (elementName != null)
             {
@@ -88,7 +90,7 @@ namespace NXmlMapper
             {
                 //Element -> Property mappings
                 ElementNameAttribute elementAttr = p.GetCustomAttribute<ElementNameAttribute>();
-                if (elementAttr != null) //TODO is this right?
+                if (elementAttr != null)
                 {
                     if(!_elementPropertyMap.ContainsKey(elementAttr.ElementName))
                         _elementPropertyMap.Add(elementAttr.ElementName, p.Name);
@@ -96,10 +98,18 @@ namespace NXmlMapper
 
                 //Attribute -> Property mappings
                 AttributeNameAttribute attributeAttr = p.GetCustomAttribute<AttributeNameAttribute>();
-                if (attributeAttr != null) //TODO is this right?
+                if (attributeAttr != null)
                 {
                     if (!_attributePropertyMap.ContainsKey(attributeAttr.AttributeName))
+                    {
                         _attributePropertyMap.Add(attributeAttr.AttributeName, p.Name);
+
+                        //check if there are parse options specified, and add them if there are
+                        if (!string.IsNullOrEmpty(attributeAttr.ParseOptions))
+                        {
+                            _attributeParseOptions.Add(attributeAttr.AttributeName, attributeAttr.ParseOptions);
+                        }
+                    }
                 }
             }
         }
@@ -149,8 +159,10 @@ namespace NXmlMapper
         /// </summary>
         /// <param name="from">Name of the XML element.</param>
         /// <param name="to">Name of the class property.</param>
-        public void SetAttributeMap(string from, string to)
+        /// <param name="parseOptions">Optional parse options.</param>
+        public void SetAttributeMap(string from, string to, string parseOptions = null)
         {
+            //add the attribute mapping
             if (_attributePropertyMap.ContainsKey(from))
             {
                 _attributePropertyMap[from] = to;
@@ -160,9 +172,23 @@ namespace NXmlMapper
                 _attributePropertyMap.Add(from, to);
             }
 
+            //If there's a corresponding element mapping for this property, remove it
             if (_elementPropertyMap.ContainsKey(from))
             {
                 _elementPropertyMap.Remove(from);
+            }
+
+            //Parse options
+            if (!string.IsNullOrEmpty(parseOptions))
+            {
+                if (_attributeParseOptions.ContainsKey(from))
+                {
+                    _attributeParseOptions[from] = parseOptions;
+                }
+                else
+                {
+                    _attributeParseOptions.Add(from, parseOptions);
+                }
             }
         }
 
@@ -171,7 +197,7 @@ namespace NXmlMapper
         /// </summary>
         public void SetXml(string xml)
         {
-            _xml = XDocument.Load(new StringReader(xml));
+            _xml = XDocument.Load(new StringReader(xml)).Descendants(_elementName);
         }
 
         /// <summary>
@@ -179,7 +205,7 @@ namespace NXmlMapper
         /// </summary>
         public void SetXml(XDocument xml)
         {
-            _xml = xml;
+            _xml = xml.Descendants(_elementName);
         }
 
         /// <summary>
@@ -187,7 +213,7 @@ namespace NXmlMapper
         /// </summary>
         public void SetXml(IEnumerable<XElement> xml)
         {
-            _xml = new XDocument(xml);
+            _xml = xml;
         }
 
         /// <summary>
@@ -199,7 +225,7 @@ namespace NXmlMapper
 
             //TODO maybe this should keep parsing the next element every time it's called?
 
-            XElement firstElement = _xml.Descendants(_elementName).FirstOrDefault();
+            XElement firstElement = _xml.FirstOrDefault();
 
             if (firstElement == null)
                 throw new Exception("No matching elements found");
@@ -214,7 +240,7 @@ namespace NXmlMapper
         {
             if (_xml == null) throw new Exception("No XML data set");
 
-            var list = _xml.Descendants(_elementName).Select(ParseElement).ToList(); //todo if empty?
+            var list = _xml.Select(ParseElement).ToList(); //todo if empty?
 
             return list;
         }
@@ -230,7 +256,8 @@ namespace NXmlMapper
             //Parse the attributes
             foreach (XAttribute attr in e.Attributes().Where(attr => _attributePropertyMap.ContainsKey(attr.Name.LocalName)))
             {
-                ParseString(attr.Value, ref result, _attributePropertyMap[attr.Name.LocalName]);
+                string parseOptions = _attributeParseOptions.ContainsKey(attr.Name.LocalName) ? _attributeParseOptions[attr.Name.LocalName] : null;
+                ParseString(attr.Value, ref result, _attributePropertyMap[attr.Name.LocalName], parseOptions);
             }
 
             //Parse any subelements
@@ -291,14 +318,9 @@ namespace NXmlMapper
                 DateTime dt;
                 bool success = false;
                 
-                if(!string.IsNullOrEmpty(parseOptions))
-                {
-                    success = DateTime.TryParse(input, out dt);
-                }
-                else
-                {
-                    success = DateTime.TryParseExact(input, parseOptions, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
-                }
+                success = string.IsNullOrEmpty(parseOptions) 
+                    ? DateTime.TryParse(input, out dt) 
+                    : DateTime.TryParseExact(input, parseOptions, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
 
                 if (success)
                 {
