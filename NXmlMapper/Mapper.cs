@@ -313,7 +313,7 @@ namespace NXmlMapper
             {
                 propertyInfo.SetValue(target, input);
             }
-            else if (propertyType == typeof(DateTime))
+            else if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
             {
                 DateTime dt;
                 bool success = false;
