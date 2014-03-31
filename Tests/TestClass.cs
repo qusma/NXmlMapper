@@ -1,4 +1,5 @@
-﻿using NXmlMapper;
+﻿using System;
+using NXmlMapper;
 
 namespace Tests
 {
@@ -22,5 +23,10 @@ namespace Tests
         public int PropWithSpecifiedEelementName { get; set; }
 
         public int FooBar { get; set; }
+
+        public bool BoolProp { get; set; }
+
+        [AttributeName("date", "yyyy;MM;dd")]
+        public DateTime Date { get; set; }
     }
 }
