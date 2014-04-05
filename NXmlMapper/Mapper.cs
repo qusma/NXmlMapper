@@ -309,6 +309,14 @@ namespace NXmlMapper
                     propertyInfo.SetValue(target, value);
                 }
             }
+            else if (propertyType == typeof(long))
+            {
+                long value;
+                if (long.TryParse(input, out value))
+                {
+                    propertyInfo.SetValue(target, value);
+                }
+            }
             else if (propertyType == typeof(string))
             {
                 propertyInfo.SetValue(target, input);
@@ -317,9 +325,9 @@ namespace NXmlMapper
             {
                 DateTime dt;
                 bool success = false;
-                
-                success = string.IsNullOrEmpty(parseOptions) 
-                    ? DateTime.TryParse(input, out dt) 
+
+                success = string.IsNullOrEmpty(parseOptions)
+                    ? DateTime.TryParse(input, out dt)
                     : DateTime.TryParseExact(input, parseOptions, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
 
                 if (success)
