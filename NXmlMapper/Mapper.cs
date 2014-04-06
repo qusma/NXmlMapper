@@ -285,7 +285,7 @@ namespace NXmlMapper
             PropertyInfo propertyInfo = typeof(T).GetProperty(propertyName);
             Type propertyType = propertyInfo.PropertyType;
 
-            if (propertyType == typeof(double))
+            if (propertyType == typeof(double) || propertyType == typeof(double?))
             {
                 double value;
                 if (double.TryParse(input, out value))
@@ -293,7 +293,7 @@ namespace NXmlMapper
                     propertyInfo.SetValue(target, value);
                 }
             }
-            else if (propertyType == typeof(int))
+            else if (propertyType == typeof(int) || propertyType == typeof(int?))
             {
                 int value;
                 if (int.TryParse(input, out value))
@@ -301,7 +301,7 @@ namespace NXmlMapper
                     propertyInfo.SetValue(target, value);
                 }
             }
-            else if (propertyType == typeof(decimal))
+            else if (propertyType == typeof(decimal) || propertyType == typeof(decimal?))
             {
                 decimal value;
                 if (decimal.TryParse(input, out value))
@@ -309,7 +309,7 @@ namespace NXmlMapper
                     propertyInfo.SetValue(target, value);
                 }
             }
-            else if (propertyType == typeof(long))
+            else if (propertyType == typeof(long) || propertyType == typeof(long?))
             {
                 long value;
                 if (long.TryParse(input, out value))
