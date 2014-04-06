@@ -28,5 +28,7 @@ namespace Tests
 
         [AttributeName("date", "yyyy;MM;dd")]
         public DateTime Date { get; set; }
+
+        public double? NullableDoubleProp { get; set; }
     }
 }

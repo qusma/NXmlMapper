@@ -147,5 +147,23 @@ namespace Tests
             TestClass result = mapper.ParseOne();
             Assert.IsFalse(result.BoolProp);
         }
+
+        [Test]
+        public void NullableDoubleParsingWorksWhenValueIsNumber()
+        {
+            string input = "<TestClass NullableDoubleProp=\"0.05\" /> ";
+            var mapper = new Mapper<TestClass>(input);
+            TestClass result = mapper.ParseOne();
+            Assert.AreEqual(0.05, result.NullableDoubleProp);
+        }
+
+        [Test]
+        public void NullableDoubleParsingReturnsNullWhenParsingDoesNotWork()
+        {
+            string input = "<TestClass NullableDoubleProp=\"asdf\" /> ";
+            var mapper = new Mapper<TestClass>(input);
+            TestClass result = mapper.ParseOne();
+            Assert.AreEqual(null, result.NullableDoubleProp);
+        }
     }
 }
