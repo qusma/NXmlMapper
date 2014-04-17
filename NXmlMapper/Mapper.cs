@@ -22,6 +22,7 @@ namespace NXmlMapper
         private string _elementName;
 
         private IEnumerable<XElement> _xml;
+        private IEnumerator<XElement> _xmlEnumerator;
 
         /// <summary>
         /// Create mapper to parse xml files to objects.
@@ -224,7 +225,7 @@ namespace NXmlMapper
         /// </summary>
         public void SetXml(string xml)
         {
-            _xml = XDocument.Load(new StringReader(xml)).Descendants(_elementName);
+            SetXml(XDocument.Load(new StringReader(xml)).Descendants(_elementName));
         }
 
         /// <summary>
@@ -232,7 +233,7 @@ namespace NXmlMapper
         /// </summary>
         public void SetXml(XDocument xml)
         {
-            _xml = xml.Descendants(_elementName);
+            SetXml(xml.Descendants(_elementName));
         }
 
         /// <summary>
@@ -241,23 +242,22 @@ namespace NXmlMapper
         public void SetXml(IEnumerable<XElement> xml)
         {
             _xml = xml;
+            _xmlEnumerator = _xml.GetEnumerator();
         }
 
         /// <summary>
-        /// Parse the first matching element.
+        /// Parse the next element. Returns null if the collection has been exhausted.
         /// </summary>
-        public T ParseOne()
+        public T ParseNext()
         {
             if (_xml == null) throw new Exception("No XML data set");
 
-            //TODO maybe this should keep parsing the next element every time it's called?
+            _xmlEnumerator.MoveNext();
+            XElement element = _xmlEnumerator.Current;
 
-            XElement firstElement = _xml.FirstOrDefault();
+            if (element == null) return default(T);
 
-            if (firstElement == null)
-                throw new Exception("No matching elements found");
-
-            return ParseElement(firstElement);
+            return ParseElement(element);
         }
 
         /// <summary>
