@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
 
@@ -14,12 +13,12 @@ namespace NXmlMapper
 {
     public class Mapper<T> where T: new()
     {
-        private Dictionary<string, string> _elementPropertyMap;
-        private Dictionary<string, string> _elementParseOptions;
-        private Dictionary<string, string> _attributePropertyMap;
-        private Dictionary<string, string> _attributeParseOptions;
+        private readonly Dictionary<string, string> _elementPropertyMap;
+        private readonly Dictionary<string, string> _elementParseOptions;
+        private readonly Dictionary<string, string> _attributePropertyMap;
+        private readonly Dictionary<string, string> _attributeParseOptions;
 
-        private string _elementName;
+        private readonly string _elementName;
 
         private IEnumerable<XElement> _xml;
         private IEnumerator<XElement> _xmlEnumerator;
@@ -35,15 +34,15 @@ namespace NXmlMapper
             _attributePropertyMap = new Dictionary<string, string>();
             _attributeParseOptions = new Dictionary<string, string>();
 
-            if (elementName != null)
-            {
-                _elementName = elementName;
-            }
-            else
+            if (string.IsNullOrEmpty(elementName))
             {
                 //Check if the class has an attribute specifying the element name. If not use, the class name.
                 var elementNameAttr = (ElementNameAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(ElementNameAttribute));
                 _elementName = elementNameAttr != null ? elementNameAttr.ElementName : typeof(T).Name;
+            }
+            else
+            {
+                _elementName = elementName;
             }
 
             GetMapsFromAttributes();
