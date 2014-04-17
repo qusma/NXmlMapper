@@ -96,32 +96,14 @@ namespace NXmlMapper
                 ElementNameAttribute elementAttr = p.GetCustomAttribute<ElementNameAttribute>();
                 if (elementAttr != null)
                 {
-                    if (!_elementPropertyMap.ContainsKey(elementAttr.ElementName))
-                    {
-                        _elementPropertyMap.Add(elementAttr.ElementName, p.Name);
-
-                        //check if there are parse options specified, and add them if there are
-                        if (!string.IsNullOrEmpty(elementAttr.ParseOptions))
-                        {
-                            _elementParseOptions.Add(elementAttr.ElementName, elementAttr.ParseOptions);
-                        }
-                    }
+                    SetElementMap(elementAttr.ElementName, p.Name, elementAttr.ParseOptions);
                 }
 
                 //Attribute -> Property mappings
                 AttributeNameAttribute attributeAttr = p.GetCustomAttribute<AttributeNameAttribute>();
                 if (attributeAttr != null)
                 {
-                    if (!_attributePropertyMap.ContainsKey(attributeAttr.AttributeName))
-                    {
-                        _attributePropertyMap.Add(attributeAttr.AttributeName, p.Name);
-
-                        //check if there are parse options specified, and add them if there are
-                        if (!string.IsNullOrEmpty(attributeAttr.ParseOptions))
-                        {
-                            _attributeParseOptions.Add(attributeAttr.AttributeName, attributeAttr.ParseOptions);
-                        }
-                    }
+                    SetAttributeMap(attributeAttr.AttributeName, p.Name, attributeAttr.ParseOptions);
                 }
             }
         }
