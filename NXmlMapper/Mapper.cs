@@ -134,21 +134,11 @@ namespace NXmlMapper
         /// <param name="parseOptions">Optional parse options.</param>
         public void SetElementMap(string from, string to, string parseOptions = null)
         {
-            //add the element mapping
-            if (_elementPropertyMap.ContainsKey(from))
-            {
-                _elementPropertyMap[from] = to;
-            }
-            else
-            {
-                _elementPropertyMap.Add(from, to);
-            }
-
             //if there's an attribute mapping, remove it
-            if (_attributePropertyMap.ContainsKey(from))
-            {
-                _attributePropertyMap.Remove(from);
-            }
+            RemoveMappingsToProperty(to);
+
+            //add the element mapping
+            _elementPropertyMap.Add(from, to);
 
             //Parse options
             if (_elementParseOptions.ContainsKey(from))
@@ -159,7 +149,6 @@ namespace NXmlMapper
             {
                 _elementParseOptions.Add(from, parseOptions);
             }
-
         }
 
         /// <summary>
@@ -170,21 +159,11 @@ namespace NXmlMapper
         /// <param name="parseOptions">Optional parse options.</param>
         public void SetAttributeMap(string from, string to, string parseOptions = null)
         {
-            //add the attribute mapping
-            if (_attributePropertyMap.ContainsKey(from))
-            {
-                _attributePropertyMap[from] = to;
-            }
-            else
-            {
-                _attributePropertyMap.Add(from, to);
-            }
-
             //If there's a corresponding element mapping for this property, remove it
-            if (_elementPropertyMap.ContainsKey(from))
-            {
-                _elementPropertyMap.Remove(from);
-            }
+            RemoveMappingsToProperty(to);
+
+            //add the attribute mapping
+            _attributePropertyMap.Add(from, to);
 
             //Parse options
             if (_attributeParseOptions.ContainsKey(from))
@@ -196,6 +175,18 @@ namespace NXmlMapper
                 _attributeParseOptions.Add(from, parseOptions);
             }
         }
+
+        private void RemoveMappingsToProperty(string propertyName)
+        {
+            foreach (var key in _attributePropertyMap.Where(x => x.Value == propertyName).Select(x => x.Key).ToList())
+            {
+                _attributePropertyMap.Remove(key);
+            }
+
+            foreach (var key in _elementPropertyMap.Where(x => x.Value == propertyName).Select(x => x.Key).ToList())
+            {
+                _elementPropertyMap.Remove(key);
+            }
         }
 
         /// <summary>
