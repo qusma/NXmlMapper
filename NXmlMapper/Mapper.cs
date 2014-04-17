@@ -15,6 +15,7 @@ namespace NXmlMapper
     public class Mapper<T> where T: new()
     {
         private Dictionary<string, string> _elementPropertyMap;
+        private Dictionary<string, string> _elementParseOptions;
         private Dictionary<string, string> _attributePropertyMap;
         private Dictionary<string, string> _attributeParseOptions;
 
@@ -29,6 +30,7 @@ namespace NXmlMapper
         private Mapper(string elementName = null)
         {
             _elementPropertyMap = new Dictionary<string, string>();
+            _elementParseOptions = new Dictionary<string, string>();
             _attributePropertyMap = new Dictionary<string, string>();
             _attributeParseOptions = new Dictionary<string, string>();
 
@@ -93,8 +95,16 @@ namespace NXmlMapper
                 ElementNameAttribute elementAttr = p.GetCustomAttribute<ElementNameAttribute>();
                 if (elementAttr != null)
                 {
-                    if(!_elementPropertyMap.ContainsKey(elementAttr.ElementName))
+                    if (!_elementPropertyMap.ContainsKey(elementAttr.ElementName))
+                    {
                         _elementPropertyMap.Add(elementAttr.ElementName, p.Name);
+
+                        //check if there are parse options specified, and add them if there are
+                        if (!string.IsNullOrEmpty(elementAttr.ParseOptions))
+                        {
+                            _elementParseOptions.Add(elementAttr.ElementName, elementAttr.ParseOptions);
+                        }
+                    }
                 }
 
                 //Attribute -> Property mappings
@@ -155,6 +165,19 @@ namespace NXmlMapper
             if (_attributePropertyMap.ContainsKey(from))
             {
                 _attributePropertyMap.Remove(from);
+            }
+
+            //Parse options
+            if (!string.IsNullOrEmpty(parseOptions))
+            {
+                if (_elementParseOptions.ContainsKey(from))
+                {
+                    _elementParseOptions[from] = parseOptions;
+                }
+                else
+                {
+                    _elementParseOptions.Add(from, parseOptions);
+                }
             }
         }
 
