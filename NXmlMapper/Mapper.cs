@@ -151,17 +151,15 @@ namespace NXmlMapper
             }
 
             //Parse options
-            if (!string.IsNullOrEmpty(parseOptions))
+            if (_elementParseOptions.ContainsKey(from))
             {
-                if (_elementParseOptions.ContainsKey(from))
-                {
-                    _elementParseOptions[from] = parseOptions;
-                }
-                else
-                {
-                    _elementParseOptions.Add(from, parseOptions);
-                }
+                _elementParseOptions[from] = parseOptions;
             }
+            else if (!string.IsNullOrEmpty(parseOptions))
+            {
+                _elementParseOptions.Add(from, parseOptions);
+            }
+
         }
 
         /// <summary>
@@ -189,17 +187,15 @@ namespace NXmlMapper
             }
 
             //Parse options
-            if (!string.IsNullOrEmpty(parseOptions))
+            if (_attributeParseOptions.ContainsKey(from))
             {
-                if (_attributeParseOptions.ContainsKey(from))
-                {
-                    _attributeParseOptions[from] = parseOptions;
-                }
-                else
-                {
-                    _attributeParseOptions.Add(from, parseOptions);
-                }
+                _attributeParseOptions[from] = parseOptions;
             }
+            else if (!string.IsNullOrEmpty(parseOptions))
+            {
+                _attributeParseOptions.Add(from, parseOptions);
+            }
+        }
         }
 
         /// <summary>
