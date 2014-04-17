@@ -283,7 +283,9 @@ namespace NXmlMapper
             //Parse the attributes
             foreach (XAttribute attr in e.Attributes().Where(attr => _attributePropertyMap.ContainsKey(attr.Name.LocalName)))
             {
-                string parseOptions = _attributeParseOptions.ContainsKey(attr.Name.LocalName) ? _attributeParseOptions[attr.Name.LocalName] : null;
+                string parseOptions = _attributeParseOptions.ContainsKey(attr.Name.LocalName) 
+                    ? _attributeParseOptions[attr.Name.LocalName] 
+                    : null;
                 ParseString(attr.Value, ref result, _attributePropertyMap[attr.Name.LocalName], parseOptions);
             }
 
