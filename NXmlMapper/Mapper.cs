@@ -291,10 +291,13 @@ namespace NXmlMapper
             foreach (string elementName in _elementPropertyMap.Keys)
             {
                 XElement subElement = e.Element(elementName);
-                if (subElement != null)
-                {
-                    ParseString(subElement.Value, ref result, _elementPropertyMap[elementName]);
-                }
+                if (subElement == null) continue;
+
+                string parseOptions = _elementParseOptions.ContainsKey(elementName)
+                    ? _elementParseOptions[elementName]
+                    : null;
+
+                ParseString(subElement.Value, ref result, _elementPropertyMap[elementName], parseOptions);
             }
 
             return result;
