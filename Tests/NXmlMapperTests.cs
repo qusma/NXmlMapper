@@ -221,5 +221,30 @@ namespace Tests
             TestClass result = mapper.ParseNext();
             Assert.AreEqual(10, result.IntProp);
         }
+
+        [Test]
+        public void ParseNextStepsThroughTheCollectionCorrectly()
+        {
+            string input = "<Collection>" +
+                    "<TestClass IntProp=\"0\" /> " +
+                    "<TestClass IntProp=\"1\" /> " +
+                    "<TestClass IntProp=\"2\" /> " +
+                    "<TestClass IntProp=\"3\" /> " +
+                "</Collection>";
+
+            var mapper = new Mapper<TestClass>(input);
+
+            TestClass result = mapper.ParseNext();
+            Assert.AreEqual(0, result.IntProp);
+
+            result = mapper.ParseNext();
+            Assert.AreEqual(1, result.IntProp);
+
+            result = mapper.ParseNext();
+            Assert.AreEqual(2, result.IntProp);
+
+            result = mapper.ParseNext();
+            Assert.AreEqual(3, result.IntProp);
+        }
     }
 }
