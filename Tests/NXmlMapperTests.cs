@@ -117,8 +117,28 @@ namespace Tests
         public void DateTimeParsingWorksCorrectly()
         {
             var mapper = new Mapper<TestClass>(_input, "SampleXml");
-            TestClass t = mapper.ParseOne();
+            TestClass t = mapper.ParseNext();
             Assert.AreEqual(new DateTime(2001, 11, 16), t.Date);
+        }
+
+        [Test]
+        public void ParseOptionsOnAttributeValuesWorkCorrectly()
+        {
+            string input = "<TestClass WeirdDate=\"2001-05;17\" />";
+            var mapper = new Mapper<TestClass>(input);
+            mapper.SetAttributeMap("WeirdDate", "Date", "yyyy-MM;dd");
+            TestClass t = mapper.ParseNext();
+            Assert.AreEqual(new DateTime(2001, 05, 17), t.Date);
+        }
+
+        [Test]
+        public void ParseOptionsOnElementValuesWorkCorrectly()
+        {
+            string input = "<TestClass> <WeirdDate>2001-05;17</WeirdDate> </TestClass>";
+            var mapper = new Mapper<TestClass>(input);
+            mapper.SetElementMap("WeirdDate", "Date", "yyyy-MM;dd");
+            TestClass t = mapper.ParseNext();
+            Assert.AreEqual(new DateTime(2001, 05, 17), t.Date);
         }
 
         [Test]
