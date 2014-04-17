@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="AttributeNameAttribute.cs" />
     <Compile Include="ElementNameAttribute.cs" />
+    <Compile Include="MapperExtensions.cs" />
     <Compile Include="NotXmlMappedAttribute.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
