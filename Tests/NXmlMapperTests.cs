@@ -165,5 +165,24 @@ namespace Tests
             TestClass result = mapper.ParseOne();
             Assert.AreEqual(null, result.NullableDoubleProp);
         }
+        [Test]
+        public void FluentAttributeMappingWorksCorrectly()
+        {
+            string input = "<TestClass TestAttr=\"5\" /> ";
+            var mapper = new Mapper<TestClass>(input);
+            mapper.SetAttributeMap("TestAttr", x => x.DoubleProp);
+            TestClass result = mapper.ParseOne();
+            Assert.AreEqual(null, result.NullableDoubleProp);
+        }
+
+        [Test]
+        public void FluentElementMappingWorksCorrectly()
+        {
+            string input = "<TestClass> <TestAttr>10</TestAttr> </TestClass>";
+            var mapper = new Mapper<TestClass>(input);
+            mapper.SetElementMap("TestAttr", x => x.IntProp);
+            TestClass result = mapper.ParseOne();
+            Assert.AreEqual(10, result.IntProp);
+        }
     }
 }
