@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
 
@@ -137,8 +138,10 @@ namespace NXmlMapper
         /// </summary>
         /// <param name="from">Name of the XML element.</param>
         /// <param name="to">Name of the class property.</param>
-        public void SetElementMap(string from, string to)
+        /// <param name="parseOptions">Optional parse options.</param>
+        public void SetElementMap(string from, string to, string parseOptions = null)
         {
+            //add the element mapping
             if (_elementPropertyMap.ContainsKey(from))
             {
                 _elementPropertyMap[from] = to;
@@ -148,6 +151,7 @@ namespace NXmlMapper
                 _elementPropertyMap.Add(from, to);
             }
 
+            //if there's an attribute mapping, remove it
             if (_attributePropertyMap.ContainsKey(from))
             {
                 _attributePropertyMap.Remove(from);
@@ -324,11 +328,10 @@ namespace NXmlMapper
             else if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
             {
                 DateTime dt;
-                bool success = false;
-
-                success = string.IsNullOrEmpty(parseOptions)
-                    ? DateTime.TryParse(input, out dt)
-                    : DateTime.TryParseExact(input, parseOptions, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
+                bool success = 
+                    string.IsNullOrEmpty(parseOptions)
+                        ? DateTime.TryParse(input, out dt)
+                        : DateTime.TryParseExact(input, parseOptions, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
 
                 if (success)
                 {
