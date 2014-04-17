@@ -293,10 +293,26 @@ namespace NXmlMapper
                     propertyInfo.SetValue(target, value);
                 }
             }
+            else if (propertyType == typeof(float) || propertyType == typeof(float?))
+            {
+                float value;
+                if (float.TryParse(input, out value))
+                {
+                    propertyInfo.SetValue(target, value);
+                }
+            }
             else if (propertyType == typeof(int) || propertyType == typeof(int?))
             {
                 int value;
                 if (int.TryParse(input, out value))
+                {
+                    propertyInfo.SetValue(target, value);
+                }
+            }
+            else if (propertyType == typeof(uint) || propertyType == typeof(uint?))
+            {
+                uint value;
+                if (uint.TryParse(input, out value))
                 {
                     propertyInfo.SetValue(target, value);
                 }
@@ -313,6 +329,30 @@ namespace NXmlMapper
             {
                 long value;
                 if (long.TryParse(input, out value))
+                {
+                    propertyInfo.SetValue(target, value);
+                }
+            }
+            else if (propertyType == typeof(ulong) || propertyType == typeof(ulong?))
+            {
+                ulong value;
+                if (ulong.TryParse(input, out value))
+                {
+                    propertyInfo.SetValue(target, value);
+                }
+            }
+            else if (propertyType == typeof(short) || propertyType == typeof(short?))
+            {
+                short value;
+                if (short.TryParse(input, out value))
+                {
+                    propertyInfo.SetValue(target, value);
+                }
+            }
+            else if (propertyType == typeof(ushort) || propertyType == typeof(ushort?))
+            {
+                ushort value;
+                if (ushort.TryParse(input, out value))
                 {
                     propertyInfo.SetValue(target, value);
                 }
