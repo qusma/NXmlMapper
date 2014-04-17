@@ -175,6 +175,10 @@ namespace NXmlMapper
             }
         }
 
+        /// <summary>
+        /// Remove any mappings to a property.
+        /// </summary>
+        /// <param name="propertyName">The name of the property.</param>
         private void RemoveMappingsToProperty(string propertyName)
         {
             foreach (var key in _attributePropertyMap.Where(x => x.Value == propertyName).Select(x => x.Key).ToList())
@@ -229,13 +233,13 @@ namespace NXmlMapper
         }
 
         /// <summary>
-        /// Parse all matching elements.
+        /// Parse all elements.
         /// </summary>
         public List<T> ParseAll()
         {
             if (_xml == null) throw new Exception("No XML data set");
 
-            var list = _xml.Select(ParseElement).ToList(); //todo if empty?
+            var list = _xml.Select(ParseElement).ToList();
 
             return list;
         }
