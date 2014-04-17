@@ -2,6 +2,8 @@ NXmlMapper
 ==========
 NXmlMapper is a library that lets you easily parse XML files by mapping them to classes. It can parse any numeric type, strings, bools, and DateTimes. Both XML element and attribute values are parse-able.
 
+You can install NXmlMapper through NuGet by running `Install-Package NXmlMapper` in the package manager console.
+
 Usage
 ---
 Given this XML input:
