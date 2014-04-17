@@ -31,7 +31,7 @@ namespace Tests
         public void DoublePropertyParsedCorrectly()
         {
             var mapper = new Mapper<TestClass>(_input, "SampleXml");
-            TestClass t = mapper.ParseOne();
+            TestClass t = mapper.ParseNext();
             Assert.AreEqual(5.0, t.DoubleProp);
         }
 
@@ -39,7 +39,7 @@ namespace Tests
         public void DecimalPropertyParsedCorrectly()
         {
             var mapper = new Mapper<TestClass>(_input, "SampleXml");
-            TestClass t = mapper.ParseOne();
+            TestClass t = mapper.ParseNext();
             Assert.AreEqual(1.23456789, t.DecimalProp);
         }
 
@@ -47,7 +47,7 @@ namespace Tests
         public void IntPropertyParsedCorrectly()
         {
             var mapper = new Mapper<TestClass>(_input, "SampleXml");
-            TestClass t = mapper.ParseOne();
+            TestClass t = mapper.ParseNext();
             Assert.AreEqual(123, t.IntProp);
         }
 
@@ -55,7 +55,7 @@ namespace Tests
         public void StringPropertyParsedCorrectly()
         {
             var mapper = new Mapper<TestClass>(_input, "SampleXml");
-            TestClass t = mapper.ParseOne();
+            TestClass t = mapper.ParseNext();
             Assert.AreEqual("BobTheBuilder", t.StringProp);
         }
 
@@ -63,7 +63,7 @@ namespace Tests
         public void NotXmlMappedAttributeStopsMapping()
         {
             var mapper = new Mapper<TestClass>(_input, "SampleXml");
-            TestClass t = mapper.ParseOne();
+            TestClass t = mapper.ParseNext();
             Assert.AreEqual(0, t.NotMapped);
         }
 
@@ -71,7 +71,7 @@ namespace Tests
         public void NamedAttributePropertyParsedCorrectly()
         {
             var mapper = new Mapper<TestClass>(_input, "SampleXml");
-            TestClass t = mapper.ParseOne();
+            TestClass t = mapper.ParseNext();
             Assert.AreEqual(99, t.PropWithSpecifiedAttributeName);
         }
 
@@ -80,7 +80,7 @@ namespace Tests
         {
             var mapper = new Mapper<TestClass>(_input, "SampleXml");
             mapper.SetAttributeMap("BarFoo", "FooBar");
-            TestClass t = mapper.ParseOne();
+            TestClass t = mapper.ParseNext();
             Assert.AreEqual(1, t.FooBar);
         }
 
@@ -88,7 +88,7 @@ namespace Tests
         public void NamedElementPropertyParsedCorrectly()
         {
             var mapper = new Mapper<TestClass>(_input, "SampleXml");
-            TestClass t = mapper.ParseOne();
+            TestClass t = mapper.ParseNext();
             Assert.AreEqual(55, t.PropWithSpecifiedEelementName);
         }
 
@@ -126,7 +126,7 @@ namespace Tests
         {
             string input = "<TestClass BoolProp=\"1\" /> ";
             var mapper = new Mapper<TestClass>(input);
-            TestClass result = mapper.ParseOne();
+            TestClass result = mapper.ParseNext();
             Assert.IsTrue(result.BoolProp);
         }
 
@@ -135,7 +135,7 @@ namespace Tests
         {
             string input = "<TestClass BoolProp=\"true\" /> ";
             var mapper = new Mapper<TestClass>(input);
-            TestClass result = mapper.ParseOne();
+            TestClass result = mapper.ParseNext();
             Assert.IsTrue(result.BoolProp);
         }
 
@@ -144,7 +144,7 @@ namespace Tests
         {
             string input = "<TestClass BoolProp=\"0\" /> ";
             var mapper = new Mapper<TestClass>(input);
-            TestClass result = mapper.ParseOne();
+            TestClass result = mapper.ParseNext();
             Assert.IsFalse(result.BoolProp);
         }
 
@@ -153,7 +153,7 @@ namespace Tests
         {
             string input = "<TestClass NullableDoubleProp=\"0.05\" /> ";
             var mapper = new Mapper<TestClass>(input);
-            TestClass result = mapper.ParseOne();
+            TestClass result = mapper.ParseNext();
             Assert.AreEqual(0.05, result.NullableDoubleProp);
         }
 
@@ -162,7 +162,7 @@ namespace Tests
         {
             string input = "<TestClass NullableDoubleProp=\"asdf\" /> ";
             var mapper = new Mapper<TestClass>(input);
-            TestClass result = mapper.ParseOne();
+            TestClass result = mapper.ParseNext();
             Assert.AreEqual(null, result.NullableDoubleProp);
         }
 
@@ -177,7 +177,7 @@ namespace Tests
             mapper.SetAttributeMap("TestElement", "DoubleProp");
             mapper.SetElementMap("TestElement", "DecimalProp");
 
-            TestClass result = mapper.ParseOne();
+            TestClass result = mapper.ParseNext();
             Assert.AreEqual(1, result.DoubleProp);
             Assert.AreEqual(2, result.DecimalProp);
         }
@@ -188,7 +188,7 @@ namespace Tests
             string input = "<TestClass TestAttr=\"5\" /> ";
             var mapper = new Mapper<TestClass>(input);
             mapper.SetAttributeMap("TestAttr", x => x.DoubleProp);
-            TestClass result = mapper.ParseOne();
+            TestClass result = mapper.ParseNext();
             Assert.AreEqual(null, result.NullableDoubleProp);
         }
 
@@ -198,7 +198,7 @@ namespace Tests
             string input = "<TestClass> <TestAttr>10</TestAttr> </TestClass>";
             var mapper = new Mapper<TestClass>(input);
             mapper.SetElementMap("TestAttr", x => x.IntProp);
-            TestClass result = mapper.ParseOne();
+            TestClass result = mapper.ParseNext();
             Assert.AreEqual(10, result.IntProp);
         }
     }
