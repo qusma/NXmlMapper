@@ -1,0 +1,85 @@
+
+
+
+
+
+
+
+
+
+
+ 
+
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>NXmlMapper</title>
+        <meta name="viewport" content="width=device-width">
+
+		
+			<link rel="stylesheet" type="text/css" href="../assets/css/style.css?version=0931" />
+			<script src="../assets/js/vendor.js?version=0931"></script>
+			<script src="../assets/js/frame.js?version=0931"></script>
+		
+
+    </head>
+    <body>        
+       <div class="ui-layout-center">
+			<div class="text-box markdown no-margin">
+				
+					<h1>NXmlMapper</h1>
+
+<p>NXmlMapper is a library that lets you easily parse XML files by mapping them to classes. It can parse any numeric type, strings, bools, and DateTimes. Both XML element and attribute values are parse-able.</p>
+
+<p>You can install NXmlMapper through NuGet by running <code>Install-Package NXmlMapper</code> in the package manager console.</p>
+
+<h2>Usage</h2>
+
+<p>Given this XML input:</p>
+
+<pre><code>&lt;Workforce&gt;
+    &lt;Person Name="Bob" Age="43" /&gt;
+    &lt;Person Name="Alice" Age="35" /&gt;
+    &lt;Person Name="John" Age="49" /&gt;
+&lt;/Workforce&gt;
+</code></pre>
+
+<p>And this class:</p>
+
+<pre><code>public class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+}
+</code></pre>
+
+<p>You can get a <code>List&lt;Person&gt;</code> with all the values filled in by doing the following:</p>
+
+<pre><code>var mapper = new Mapper&lt;Person&gt;(xml);
+List&lt;Person&gt; workforce = mapper.ParseAll();
+</code></pre>
+
+<p>If automatic mapping is not enough, you can map XML to object properties manually. Let's say you want to map the XML attribute "fullName" to the property "Name". This can be done either using an attribute on the property:</p>
+
+<pre><code>[AttributeName("fullName")]
+public string Name { get; set; }
+</code></pre>
+
+<p>or through a fluent interface:</p>
+
+<pre><code>mapper.SetAttributeMap("fullName", x =&gt; x.Name);
+</code></pre>
+
+<p>You can also prevent automatic mapping through the <code>[NotXmlMapped]</code> attribute.</p>
+
+				
+			</div>
+		</div>
+    </body>
+</html>
+
