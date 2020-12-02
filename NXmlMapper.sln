@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NXmlMapper", "NXmlMapper\NXmlMapper.csproj", "{B0BEAD04-C799-40B8-A79E-3A43E9B0EEBA}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NXmlMapper", "NXmlMapper\NXmlMapper.csproj", "{EC239D9D-8605-4B8A-B24E-1CAF9AF79C5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{8FDE7AF9-AB02-4A2C-B5E2-F5C8295ADA6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{6BB447C0-0B89-491F-9596-3556E994A5F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +21,19 @@ Global
 		{8FDE7AF9-AB02-4A2C-B5E2-F5C8295ADA6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FDE7AF9-AB02-4A2C-B5E2-F5C8295ADA6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FDE7AF9-AB02-4A2C-B5E2-F5C8295ADA6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC239D9D-8605-4B8A-B24E-1CAF9AF79C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC239D9D-8605-4B8A-B24E-1CAF9AF79C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC239D9D-8605-4B8A-B24E-1CAF9AF79C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC239D9D-8605-4B8A-B24E-1CAF9AF79C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BB447C0-0B89-491F-9596-3556E994A5F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BB447C0-0B89-491F-9596-3556E994A5F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BB447C0-0B89-491F-9596-3556E994A5F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BB447C0-0B89-491F-9596-3556E994A5F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {56CF123E-6C75-45EC-B859-CE0BC327850D}
 	EndGlobalSection
 EndGlobal
